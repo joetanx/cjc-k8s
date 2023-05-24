@@ -265,7 +265,7 @@ Ref: [Secrets Provider - Push-to-File mode](https://docs-er.cyberark.com/ConjurC
 > **Note** The `cityapp-secretsprovider.yaml` example  is set for `data/jtan` policy, change this to your policy before applying
 
 ```console
-curl -O https://raw.githubusercontent.com/joetanx/cjc-k8s/main/secretless-cm.yaml
+curl -sO https://raw.githubusercontent.com/joetanx/cjc-k8s/main/cityapp-secretsprovider.yaml
 kubectl -n cityapp apply -f cityapp-secretsprovider.yaml && rm -f cityapp-secretsprovider.yaml
 ```
 
@@ -312,14 +312,15 @@ We will map the `cityapp-secretless-cm.yaml` to the `cityapp` container using a 
 > **Note** The `secretless-cm.yaml` example is set for `data/jtan` policy, change this to your policy before applying
 
 ```console
-curl -O https://raw.githubusercontent.com/joetanx/cjc-k8s/main/secretless-cm.yaml
+curl -sO https://raw.githubusercontent.com/joetanx/cjc-k8s/main/secretless-cm.yaml
 kubectl -n cityapp create configmap secretless-cm --from-file=secretless-cm.yaml && rm -f secretless-cm.yaml
 ```
 
 ### 7.3. Deploy the Secretless-based cityapp
 
 ```console
-kubectl -n cityapp apply -f https://raw.githubusercontent.com/joetanx/cjc-k8s/main/cityapp-secretless.yaml
+curl -sO https://raw.githubusercontent.com/joetanx/cjc-k8s/main/cityapp-secretless.yaml
+kubectl -n cityapp apply -f cityapp-secretless.yaml && rm -f cityapp-secretless.yaml
 ```
 
 Verify that the application is deployed successfully:

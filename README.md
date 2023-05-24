@@ -334,3 +334,9 @@ Browse to the Kubernetes node on port 30082 `http://<kube-node-fqdn>:30082` to v
 - Notice that the database connection details list that the application is connecting to `127.0.0.1` using empty credentials
 
 ![image](https://github.com/joetanx/cjc-k8s/assets/90442032/36f610c1-7b9e-43bc-a69b-2bc7a93a6b1c)
+
+## 8. Viewing audit events
+
+[Activities](https://docs.cyberark.com/Product-Doc/OnlineHelp/Audit/Latest/en/Content/Audit/isp_system-activities.htm) in Conjur Cloud can be viewed on CyberArk Audit where details of the action (e.g. authenicate, fetch) and the host identities are recorded
+
+![image](https://github.com/joetanx/cjc-k8s/assets/90442032/48901eba-34d1-45a4-ba11-a3aaade458f6)

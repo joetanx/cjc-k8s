@@ -3,7 +3,7 @@
   id: jtan/k8s
   body:
   # Define the application as a Conjur host in policy
-  # Ref: https://docs.cyberark.com/Product-Doc/OnlineHelp/AAM-DAP/Latest/en/Content/Integrations/k8s-ocp/cjr-k8s-authn-client-authjwt.htm
+  # Ref: https://docs-er.cyberark.com/ConjurCloud/en/Content/Integrations/k8s-ocp/cjr-k8s-authn-client-authjwt.htm
   - !host
     id: system:serviceaccount:cityapp:secretsprovider
     annotations:

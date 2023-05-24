@@ -1,6 +1,6 @@
-# Define the JWT Authenticator endpoint in Conjur
-# Ref: https://docs.cyberark.com/Product-Doc/OnlineHelp/AAM-DAP/Latest/en/Content/Integrations/k8s-ocp/k8s-jwt-authn.htm#ConfiguretheJWTAuthenticator
 # Load under -b conjur/authn-jwt
+# Define the JWT Authenticator endpoint in Conjur
+# Ref: https://docs-er.cyberark.com/ConjurCloud/en/Content/Integrations/k8s-ocp/k8s-jwt-authn.htm#ConfiguretheJWTAuthenticator
 - !policy
   id: jtan-k8s
   body:

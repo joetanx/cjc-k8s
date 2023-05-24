@@ -89,11 +89,11 @@ The login writes a short-lived access token to `.conjur_credentials`
 
 ## 2. Prepare Conjur policies
 
-☝️ Policies on Conjur Cloud are segregated into `/data` and `/conjur` branches:
+☝️ Policies on Conjur Cloud are segregated into `data` and `conjur` branches:
 
-- `/data` are meant for resources (e.g. hosts, groups, variables)
-  - The sub-policy `/data/vault` contains secrets synchronized from Privilege Cloud
-- `/conjur` holds the authencator services
+- `data` are meant for resources (e.g. hosts, groups, variables)
+  - The sub-policy `data/vault` contains secrets synchronized from Privilege Cloud
+- `conjur` holds the authencator services
 
 Ref: https://docs-er.cyberark.com/ConjurCloud/en/Content/ConjurCloud/cl_policytree.htm
 
@@ -109,7 +109,7 @@ Ref: https://docs-er.cyberark.com/ConjurCloud/en/Content/ConjurCloud/cl_policytr
 - `jtan/db_cicd`: MySQL database credential used for future CI/CD integration demo (e.g. GitLab, Jenkins)
 - `jtan/aws_api`: AWS Secret Access Keys used for future CI/CD integration demo (e.g. GitLab, Jenkins)
 
-Download the example file and load to the `/data` branch:
+Download the example file and load to the `data` branch:
 
 ```console
 conjur policy load -f app-vars.yaml -b data
@@ -131,7 +131,7 @@ conjur variable set -i data/jtan/db_cityapp/password -v Cyberark1
   - Ref: [2. Define the application as a Conjur host in policy + 3.Grant access to secrets](https://docs-er.cyberark.com/ConjurCloud/en/Content/Integrations/k8s-ocp/cjr-k8s-authn-client-authjwt.htm#Setuptheapplicationtoretrievesecrets)
 - The demo applications are granted access to the demo database secrets `jtan/db_cityapp` by adding them to `consumers` group
 
-Download the example file and load to the `/data` branch:
+Download the example file and load to the `data` branch:
 
 ```console
 conjur policy load -f k8s-hosts.yaml -b data
@@ -146,7 +146,7 @@ conjur policy load -f k8s-hosts.yaml -b data
 - Creates the `webservice` for the authenticator with `consumers` group allowed to authenticate to the webservice
 - The demo applications defined in `k8s-hosts.yaml` are granted access to the JWT Authenticator `authn-jwt/jtan-k8s` by adding them to `consumers` group
 
-Download the example file and load to the `/conjur/authn-jwt` branch:
+Download the example file and load to the `conjur/authn-jwt` branch:
 
 ```console
 conjur policy load -f authn-jwt-k8s.yaml -b conjur/authn-jwt
@@ -241,7 +241,7 @@ Browse to the Kubernetes node on port 30080 `http://<kube-node-fqdn>:30080` to v
 - The cityapp connects to the MySQL world database to display random city information
 - The database, username and password information is displayed for debugging, and the application is using the credentials hardcoded in the pod environment variables
 
-![image](images/pageCityappHardCoded.png)
+![image](https://github.com/joetanx/cjc-k8s/assets/90442032/3adc6414-9e64-47a9-82f5-0ddced3eba54)
 
 Rotate the password on the MySQL server and update the new password in Conjur:
 
@@ -260,10 +260,13 @@ SQLSTATE[HY000] [1045] Access denied for user 'cityapp'@'10.244.0.6' (using pass
 
 Ref: [Secrets Provider - Push-to-File mode](https://docs-er.cyberark.com/ConjurCloud/en/Content/Integrations/k8s-ocp/cjr-k8s-jwt-sp-ic-p2f.htm)
 
-![image](images/architectureCityappSecretsProvider.png)
+![image](https://github.com/joetanx/cjc-k8s/assets/90442032/cba5a8ab-3131-4e76-8947-95a40f0fc5db)
+
+> **Note** The `cityapp-secretsprovider.yaml` example  is set for `data/jtan` policy, change this to your policy before applying
 
 ```console
-kubectl -n cityapp apply -f https://raw.githubusercontent.com/joetanx/cjc-k8s/main/cityapp-secretsprovider.yaml
+curl -O https://raw.githubusercontent.com/joetanx/cjc-k8s/main/secretless-cm.yaml
+kubectl -n cityapp apply -f cityapp-secretsprovider.yaml && rm -f cityapp-secretsprovider.yaml
 ```
 
 Verify that the application is deployed successfully:
@@ -276,7 +279,7 @@ Browse to the Kubernetes node on port 30081 `http://<kube-node-fqdn>:30081` to v
 
 Notice that the database connection details list the credentials retrieved from Conjur:
 
-![image](images/pageCityappSecretsProvider.png)
+![image](https://github.com/joetanx/cjc-k8s/assets/90442032/e4453ab3-0107-4553-b240-3ce8146d05e7)
 
 ## 7. Deploy cityapp-secretless
 
@@ -294,7 +297,7 @@ The Secretless Broker will:
 
 Application connection flow with Secretless Broker:
 
-![image](images/architectureCityappSecretless.png)
+![image](https://github.com/joetanx/cjc-k8s/assets/90442032/94f798ea-b6d9-4eb8-b6f0-9fda0ee8ae54)
 
 ### 7.2. Prepare the ConfigMap to be used by Secretless Broker
 
@@ -305,6 +308,8 @@ Secretless Broker needs some configuration to determine where to listen for new 
 We will map the `cityapp-secretless-cm.yaml` to the `cityapp` container using a ConfigMap
 
 ☝️ Secretless Broker also need to locate Conjur to authenticate and retrieve credentials, this was done in the previous step where we loaded the `apps-cm` ConfigMap
+
+> **Note** The `secretless-cm.yaml` example is set for `data/jtan` policy, change this to your policy before applying
 
 ```console
 curl -O https://raw.githubusercontent.com/joetanx/cjc-k8s/main/secretless-cm.yaml
@@ -327,4 +332,4 @@ Browse to the Kubernetes node on port 30082 `http://<kube-node-fqdn>:30082` to v
 
 - Notice that the database connection details list that the application is connecting to `127.0.0.1` using empty credentials
 
-![image](images/pageCityappSecretless.png)
+![image](https://github.com/joetanx/cjc-k8s/assets/90442032/36f610c1-7b9e-43bc-a69b-2bc7a93a6b1c)

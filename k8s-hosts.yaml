@@ -1,0 +1,29 @@
+# Load under -b data
+- !policy
+  id: jtan/k8s
+  body:
+  # Define the application as a Conjur host in policy
+  # Ref: https://docs.cyberark.com/Product-Doc/OnlineHelp/AAM-DAP/Latest/en/Content/Integrations/k8s-ocp/cjr-k8s-authn-client-authjwt.htm
+  - !host
+    id: system:serviceaccount:cityapp:secretsprovider
+    annotations:
+      authn-jwt/jtan-k8s/kubernetes.io/namespace: cityapp
+      authn-jwt/jtan-k8s/kubernetes.io/serviceaccount/name: secretsprovider
+      authn/api-key: true
+  - !host
+    id: system:serviceaccount:cityapp:secretless
+    annotations:
+      authn-jwt/jtan-k8s/kubernetes.io/namespace: cityapp
+      authn-jwt/jtan-k8s/kubernetes.io/serviceaccount/name: secretless
+      authn/api-key: true
+  - !layer cityapp
+  - !grant
+    role: !layer cityapp
+    members:
+    - !host system:serviceaccount:cityapp:secretsprovider
+    - !host system:serviceaccount:cityapp:secretless
+
+- !grant
+  roles:
+  - !group jtan/db_cityapp/consumers
+  member: !layer jtan/k8s/cityapp

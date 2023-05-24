@@ -337,6 +337,6 @@ Browse to the Kubernetes node on port 30082 `http://<kube-node-fqdn>:30082` to v
 
 ## 8. Viewing audit events
 
-[Activities](https://docs.cyberark.com/Product-Doc/OnlineHelp/Audit/Latest/en/Content/Audit/isp_system-activities.htm) in Conjur Cloud can be viewed on CyberArk Audit where details of the action (e.g. authenicate, fetch) and the host identities are recorded
+[Activities](https://docs-er.cyberark.com/ConjurCloud/en/Content/Audit/isp_system-activities.htm) in Conjur Cloud can be viewed on CyberArk Audit where details of the action (e.g. authenicate, fetch) and the host identities are recorded
 
 ![image](https://github.com/joetanx/cjc-k8s/assets/90442032/48901eba-34d1-45a4-ba11-a3aaade458f6)

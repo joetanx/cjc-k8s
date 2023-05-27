@@ -11,25 +11,3 @@
     role: !group consumers
     privilege: [ read, execute ]
     resources: *db_cityapp-variables
-- !policy
-  id: jtan/db_cicd
-  body:
-  - &db_cicd-variables
-    - !variable username
-    - !variable password
-  - !group consumers
-  - !permit
-    role: !group consumers
-    privilege: [ read, execute ]
-    resources: *db_cicd-variables
-- !policy
-  id: jtan/aws_api
-  body:
-  - &aws_api-variables
-    - !variable awsakid
-    - !variable awssak
-  - !group consumers
-  - !permit
-    role: !group consumers
-    privilege: [ read, execute ]
-    resources: *aws_api-variables

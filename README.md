@@ -227,6 +227,10 @@ rm -rf Dockerfile index.php
 
 ## 5. Deploy cityapp-hardcode
 
+> **Note** The provided manifest exposes the deployment through NGINX ingress controller at host `hardcode.cityapp.vx`
+> 
+> Edit the service and ingress according to the environment before applying
+
 ```console
 kubectl -n cityapp apply -f https://raw.githubusercontent.com/joetanx/conjur-k8s/main/cityapp-hardcode.yaml
 ```
@@ -237,11 +241,11 @@ Verify that the application is deployed successfully:
 kubectl -n cityapp get pods -o wide
 ```
 
-Browse to the Kubernetes node on port 30080 `http://<kube-node-fqdn>:30080` to verify that the application is working
+Browse to the service to verify that the application is working
 - The cityapp connects to the MySQL world database to display random city information
 - The database, username and password information is displayed for debugging, and the application is using the credentials hardcoded in the pod environment variables
 
-![image](https://github.com/joetanx/cjc-k8s/assets/90442032/3adc6414-9e64-47a9-82f5-0ddced3eba54)
+![image](https://github.com/joetanx/cjc-k8s/assets/90442032/b904b20d-2116-483f-a2e8-9500fc621d76)
 
 Rotate the password on the MySQL server and update the new password in Conjur:
 
@@ -262,7 +266,9 @@ Ref: [Secrets Provider - Push-to-File mode](https://docs-er.cyberark.com/ConjurC
 
 ![image](https://github.com/joetanx/cjc-k8s/assets/90442032/cba5a8ab-3131-4e76-8947-95a40f0fc5db)
 
-> **Note** The `cityapp-secretsprovider.yaml` example  is set for `data/jtan` policy, change this to your policy before applying
+> **Note** The provided manifest exposes the deployment through NGINX ingress controller at host `secretsprovider.cityapp.vx`
+> 
+> Edit the service and ingress according to the environment before applying
 
 ```console
 curl -sO https://raw.githubusercontent.com/joetanx/cjc-k8s/main/cityapp-secretsprovider.yaml
@@ -275,11 +281,11 @@ Verify that the application is deployed successfully:
 kubectl -n cityapp get pods -o wide
 ```
 
-Browse to the Kubernetes node on port 30081 `http://<kube-node-fqdn>:30081` to verify that the application is working
+Browse to the service to verify that the application is working
 
-Notice that the database connection details list the credentials retrieved from Conjur:
+- Notice that the database connection details list the credentials retrieved from Conjur:
 
-![image](https://github.com/joetanx/cjc-k8s/assets/90442032/e4453ab3-0107-4553-b240-3ce8146d05e7)
+![image](https://github.com/joetanx/cjc-k8s/assets/90442032/310bb336-ad2a-4a21-98f9-9097f4b80525)
 
 ## 7. Deploy cityapp-secretless
 
@@ -309,14 +315,16 @@ We will map the `cityapp-secretless-cm.yaml` to the `cityapp` container using a 
 
 ☝️ Secretless Broker also need to locate Conjur to authenticate and retrieve credentials, this was done in the previous step where we loaded the `apps-cm` ConfigMap
 
-> **Note** The `secretless-cm.yaml` example is set for `data/jtan` policy, change this to your policy before applying
-
 ```console
 curl -sO https://raw.githubusercontent.com/joetanx/cjc-k8s/main/secretless-cm.yaml
 kubectl -n cityapp create configmap secretless-cm --from-file=secretless-cm.yaml && rm -f secretless-cm.yaml
 ```
 
 ### 7.3. Deploy the Secretless-based cityapp
+
+> **Note** The provided manifest exposes the deployment through NGINX ingress controller at host `secretsprovider.cityapp.vx`
+> 
+> Edit the service and ingress according to the environment before applying
 
 ```console
 curl -sO https://raw.githubusercontent.com/joetanx/cjc-k8s/main/cityapp-secretless.yaml
@@ -329,11 +337,11 @@ Verify that the application is deployed successfully:
 kubectl -n cityapp get pods -o wide
 ```
 
-Browse to the Kubernetes node on port 30082 `http://<kube-node-fqdn>:30082` to verify that the application is working
+Browse to the service to verify that the application is working
 
 - Notice that the database connection details list that the application is connecting to `127.0.0.1` using empty credentials
 
-![image](https://github.com/joetanx/cjc-k8s/assets/90442032/36f610c1-7b9e-43bc-a69b-2bc7a93a6b1c)
+![image](https://github.com/joetanx/cjc-k8s/assets/90442032/d6c7b540-b853-4837-9d89-114e2bd0f7a0)
 
 ## 8. Viewing audit events
 

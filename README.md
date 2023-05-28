@@ -219,8 +219,8 @@ The deployment manifest files in this repo is configured use `docker.io/joetanx/
 To build the container image from [source](https://github.com/joetanx/cityapp-php)
 
 ```console
-curl -O https://raw.githubusercontent.com/joetanx/cityapp-php/main/Dockerfile
-curl -O https://raw.githubusercontent.com/joetanx/cityapp-php/main/index.php
+curl -sLO https://github.com/joetanx/cityapp-php/raw/main/Dockerfile
+curl -sLO https://github.com/joetanx/cityapp-php/raw/main/index.php
 podman build -t cityapp:php .
 rm -rf Dockerfile index.php
 ```
@@ -232,7 +232,7 @@ rm -rf Dockerfile index.php
 > Edit the service and ingress according to the environment before applying
 
 ```console
-kubectl -n cityapp apply -f https://raw.githubusercontent.com/joetanx/conjur-k8s/main/cityapp-hardcode.yaml
+kubectl -n cityapp apply -f https://github.com/joetanx/conjur-k8s/raw/main/cityapp-hardcode.yaml
 ```
 
 Verify that the application is deployed successfully:
@@ -271,8 +271,7 @@ Ref: [Secrets Provider - Push-to-File mode](https://docs-er.cyberark.com/ConjurC
 > Edit the service and ingress according to the environment before applying
 
 ```console
-curl -sO https://raw.githubusercontent.com/joetanx/cjc-k8s/main/cityapp-secretsprovider.yaml
-kubectl -n cityapp apply -f cityapp-secretsprovider.yaml && rm -f cityapp-secretsprovider.yaml
+kubectl apply -f https://github.com/joetanx/cjc-k8s/raw/main/cityapp-secretsprovider.yaml
 ```
 
 Verify that the application is deployed successfully:
@@ -316,7 +315,7 @@ We will map the `cityapp-secretless-cm.yaml` to the `cityapp` container using a 
 ☝️ Secretless Broker also need to locate Conjur to authenticate and retrieve credentials, this was done in the previous step where we loaded the `apps-cm` ConfigMap
 
 ```console
-curl -sO https://raw.githubusercontent.com/joetanx/cjc-k8s/main/secretless-cm.yaml
+curl -sLO https://github.com/joetanx/cjc-k8s/raw/main/secretless-cm.yaml
 kubectl -n cityapp create configmap secretless-cm --from-file=secretless-cm.yaml && rm -f secretless-cm.yaml
 ```
 
@@ -327,8 +326,7 @@ kubectl -n cityapp create configmap secretless-cm --from-file=secretless-cm.yaml
 > Edit the service and ingress according to the environment before applying
 
 ```console
-curl -sO https://raw.githubusercontent.com/joetanx/cjc-k8s/main/cityapp-secretless.yaml
-kubectl -n cityapp apply -f cityapp-secretless.yaml && rm -f cityapp-secretless.yaml
+kubectl apply -f https://github.com/joetanx/cjc-k8s/raw/main/cityapp-secretless.yaml
 ```
 
 Verify that the application is deployed successfully:

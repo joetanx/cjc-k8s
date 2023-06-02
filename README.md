@@ -191,7 +191,6 @@ Refs: [Prepare the Kubernetes cluster and Golden ConfigMap](https://docs.cyberar
 ```console
 CA_CERT="$(openssl s_client -connect apj-secrets.secretsmgr.cyberark.cloud:443 -showcerts </dev/null 2> /dev/null | awk '/BEGIN CERTIFICATE/,/END CERTIFICATE/ {print $0}')"
 CONJUR_CLOUD_URL=https://apj-secrets.secretsmgr.cyberark.cloud/api
-AUTHENTICATOR_ID=jtan-k8s
 CONJUR_ACCOUNT=conjur
 CONJUR_AUTHN_URL=$CONJUR_CLOUD_URL/authn-jwt/jtan-k8s
 ```

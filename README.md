@@ -95,7 +95,7 @@ The login writes a short-lived access token to `.conjur_credentials`
   - The sub-policy `data/vault` contains secrets synchronized from Privilege Cloud
 - `conjur` holds the authencator services
 
-Ref: https://docs-er.cyberark.com/ConjurCloud/en/Content/ConjurCloud/cl_policytree.htm
+Ref: https://docs.cyberark.com/Product-Doc/OnlineHelp/ConjurCloud/Latest/en/Content/ConjurCloud/cl_policytree.htm
 
 > **Note** The policy examples provided in this repository uses a `jtan` prefix
 > 
@@ -128,7 +128,7 @@ conjur variable set -i data/jtan/db_cityapp/password -v Cyberark1
 `k8s-hosts.yaml` defines `jtan/k8s` policy with:
 
 - Demo applications `cityapp-secretsprovider` and `cityapp-secretless` identified by `system:serviceaccount:cityapp:cityapp-secretsprovider` and `system:serviceaccount:cityapp:cityapp-secretless`
-  - Ref: [2. Define the application as a Conjur host in policy + 3.Grant access to secrets](https://docs-er.cyberark.com/ConjurCloud/en/Content/Integrations/k8s-ocp/cjr-k8s-authn-client-authjwt.htm#Setuptheapplicationtoretrievesecrets)
+  - Ref: [2. Define the application as a Conjur host in policy + 3.Grant access to secrets](https://docs.cyberark.com/Product-Doc/OnlineHelp/ConjurCloud/Latest/en/Content/Integrations/k8s-ocp/cjr-k8s-authn-client-authjwt.htm#Setuptheapplicationtoretrievesecrets)
 - The demo applications are granted access to the demo database secrets `jtan/db_cityapp` by adding them to `consumers` group
 
 Download the example file and load to the `data` branch:
@@ -141,7 +141,7 @@ conjur policy load -f k8s-hosts.yaml -b data
 
 `authn-jwt-k8s.yaml` defines the JWT authenticator endpoint `jtan-k8s`:
 
-- Ref: [Configure the JWT Authenticator](https://docs-er.cyberark.com/ConjurCloud/en/Content/Integrations/k8s-ocp/k8s-jwt-authn.htm#ConfiguretheJWTAuthenticator)
+- Ref: [Configure the JWT Authenticator](https://docs.cyberark.com/Product-Doc/OnlineHelp/ConjurCloud/Latest/en/Content/Integrations/k8s-ocp/k8s-jwt-authn.htm#ConfiguretheJWTAuthenticator)
 - Creates `conjur/authn-jwt/k8s` policy with the necessary variables
 - Creates the `webservice` for the authenticator with `consumers` group allowed to authenticate to the webservice
 - The demo applications defined in `k8s-hosts.yaml` are granted access to the JWT Authenticator `authn-jwt/jtan-k8s` by adding them to `consumers` group
@@ -154,7 +154,7 @@ conjur policy load -f authn-jwt-k8s.yaml -b conjur/authn-jwt
 
 ### 2.4. Populate the variables required by the JWT Authenticator
 
-Ref: [2. Populate the policy variables](https://docs-er.cyberark.com/ConjurCloud/en/Content/Operations/Services/cjr-authn-jwt-cloud.htm#ConfiguretheJWTAuthenticator)
+Ref: [2. Populate the policy variables](https://docs.cyberark.com/Product-Doc/OnlineHelp/ConjurCloud/Latest/en/Content/Integrations/k8s-ocp/k8s-jwt-authn.htm#ConfiguretheJWTAuthenticator)
 
 ```console
 PUBLIC_KEYS="$(kubectl get --raw $(kubectl get --raw /.well-known/openid-configuration | jq -r '.jwks_uri'))"
@@ -168,7 +168,7 @@ conjur variable set -i conjur/authn-jwt/jtan-k8s/audience -v vxlab
 
 ### 2.5. Enable the JWT Authenticator
 
-Ref: [3. Enable the JWT Authenticator](https://docs-er.cyberark.com/ConjurCloud/en/Content/Operations/Services/cjr-authn-jwt-cloud.htm#ConfiguretheJWTAuthenticator)
+Ref: [3. Enable the JWT Authenticator](https://docs.cyberark.com/Product-Doc/OnlineHelp/ConjurCloud/Latest/en/Content/Integrations/k8s-ocp/k8s-jwt-authn.htm#ConfiguretheJWTAuthenticator)
 
 ```console
 conjur authenticator enable --id authn-jwt/jtan-k8s
@@ -182,9 +182,7 @@ Verify authenticator status:
 
 The Conjur Cloud information is passed to the application pods using ConfigMap
 
-Refs:
-- https://docs-er.cyberark.com/ConjurCloud/en/Content/Integrations/k8s-ocp/k8s-jwt-set-up-apps.htm
-- https://docs-er.cyberark.com/ConjurCloud/en/Content/Integrations/k8s-ocp/cjr-k8s-secrets-provider-ref.htm
+Refs: [Prepare the Kubernetes cluster and Golden ConfigMap](https://docs.cyberark.com/Product-Doc/OnlineHelp/ConjurCloud/Latest/en/Content/Integrations/k8s-ocp/k8s-jwt-set-up-apps.htm#PreparetheKubernetesclusterandGoldenConfigMap)
 
 1. Create the `cityapp` namespace: `kubectl create namespace cityapp`
 
@@ -262,7 +260,9 @@ SQLSTATE[HY000] [1045] Access denied for user 'cityapp'@'10.244.0.6' (using pass
 
 ## 6. Retrieving credentials using Secrets Provider for Kubernetes
 
-Ref: [Secrets Provider - Push-to-File mode](https://docs-er.cyberark.com/ConjurCloud/en/Content/Integrations/k8s-ocp/cjr-k8s-jwt-sp-ic-p2f.htm)
+Ref:
+- [Secrets Provider - Push-to-File mode](https://docs.cyberark.com/Product-Doc/OnlineHelp/ConjurCloud/Latest/en/Content/Integrations/k8s-ocp/cjr-k8s-jwt-sp-ic-p2f.htm)
+- [Secrets Provider configuration reference](https://docs.cyberark.com/Product-Doc/OnlineHelp/ConjurCloud/Latest/en/Content/Integrations/k8s-ocp/cjr-k8s-secrets-provider-ref.htm)
 
 ![image](https://github.com/joetanx/cjc-k8s/assets/90442032/cba5a8ab-3131-4e76-8947-95a40f0fc5db)
 
@@ -343,6 +343,6 @@ Browse to the service to verify that the application is working
 
 ## 8. Viewing audit events
 
-[Activities](https://docs-er.cyberark.com/ConjurCloud/en/Content/Audit/isp_system-activities.htm) in Conjur Cloud can be viewed on CyberArk Audit where details of the action (e.g. authenicate, fetch) and the host identities are recorded
+[Activities](https://docs.cyberark.com/Product-Doc/OnlineHelp/ConjurCloud/Latest/en/Content/Audit/isp_system-activities.htm) in Conjur Cloud can be viewed on CyberArk Audit where details of the action (e.g. authenicate, fetch) and the host identities are recorded
 
 ![image](https://github.com/joetanx/cjc-k8s/assets/90442032/48901eba-34d1-45a4-ba11-a3aaade458f6)

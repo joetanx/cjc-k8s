@@ -103,15 +103,14 @@ Ref: https://docs.cyberark.com/Product-Doc/OnlineHelp/ConjurCloud/Latest/en/Cont
 
 ### 2.1. Secrets policy
 
-`app-vars.yaml` contains 3 sub-policies:
-
-- `jtan/db_cityapp`: MySQL database credential used in this Kubernetes integration
-- `jtan/db_cicd`: MySQL database credential used for future CI/CD integration demo (e.g. GitLab, Jenkins)
-- `jtan/aws_api`: AWS Secret Access Keys used for future CI/CD integration demo (e.g. GitLab, Jenkins)
+`app-vars.yaml` contains the `jtan/db_cityapp` policy which defines:
+- variables `address`, `username` and `password` for the database credentials
+- group `consumers` that is used to allow host identities access to the variables
 
 Download the example file and load to the `data` branch:
 
 ```console
+curl -sLO https://github.com/joetanx/cjc-k8s/raw/main/app-vars.yaml
 conjur policy load -f app-vars.yaml -b data
 ```
 
@@ -134,6 +133,7 @@ conjur variable set -i data/jtan/db_cityapp/password -v Cyberark1
 Download the example file and load to the `data` branch:
 
 ```console
+curl -sLO https://github.com/joetanx/cjc-k8s/raw/main/k8s-hosts.yaml
 conjur policy load -f k8s-hosts.yaml -b data
 ```
 
@@ -149,6 +149,7 @@ conjur policy load -f k8s-hosts.yaml -b data
 Download the example file and load to the `conjur/authn-jwt` branch:
 
 ```console
+curl -sLO https://github.com/joetanx/cjc-k8s/raw/main/authn-jwt-k8s.yaml
 conjur policy load -f authn-jwt-k8s.yaml -b conjur/authn-jwt
 ```
 

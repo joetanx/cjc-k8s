@@ -2,7 +2,7 @@
 
 ### Overview
 
-![image](https://github.com/joetanx/cjc-k8s/assets/90442032/87435173-7f5c-4e53-88bd-b94972ac0aed)
+![image](https://github.com/joetanx/cjc-k8s/assets/90442032/2060a530-ff95-43dd-868e-be4e752156a6)
 
 Conjur uses the JWKS of the Kubernetes cluster API as a trust anchor for JWT authentication
 

@@ -1,0 +1,40 @@
+# Load under -b data
+- !policy
+  id: jtan/k8s
+  body:
+  - !layer cityapp
+  - &k8s-hosts
+  # Define the application as a Conjur host in policy
+  # Ref: https://docs-er.cyberark.com/ConjurCloud/en/Content/Integrations/k8s-ocp/cjr-k8s-authn-client-authjwt.htm
+    - !host
+      id: system:serviceaccount:app-cjc:p2f
+      annotations:
+        authn-jwt/jtan-k8s/kubernetes.io/namespace: app-cjc
+        authn-jwt/jtan-k8s/kubernetes.io/serviceaccount/name: p2f
+        authn/api-key: true
+    - !host
+      id: system:serviceaccount:app-cjc:p2s-env
+      annotations:
+        authn-jwt/jtan-k8s/kubernetes.io/namespace: app-cjc
+        authn-jwt/jtan-k8s/kubernetes.io/serviceaccount/name: p2s-env
+        authn/api-key: true
+    - !host
+      id: system:serviceaccount:app-cjc:p2s-vol
+      annotations:
+        authn-jwt/jtan-k8s/kubernetes.io/namespace: app-cjc
+        authn-jwt/jtan-k8s/kubernetes.io/serviceaccount/name: p2s-vol
+        authn/api-key: true
+    - !host
+      id: system:serviceaccount:app-cjc:sl
+      annotations:
+        authn-jwt/jtan-k8s/kubernetes.io/namespace: app-cjc
+        authn-jwt/jtan-k8s/kubernetes.io/serviceaccount/name: sl
+        authn/api-key: true
+  - !grant
+    role: !layer cityapp
+    members: *k8s-hosts
+
+- !grant
+  roles:
+  - !group jtan/db_cityapp/consumers
+  member: !layer jtan/k8s/cityapp
